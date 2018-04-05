@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="floorplan.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="206.46161"
+     inkscape:cy="704.74243"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer4"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="page0 - startup layer"
+     inkscape:groupmode="layer"
+     id="page0">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.80769348px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.4502061"
+       x="58.644814"
+       y="113.1022"
+       id="text75"
+       transform="scale(0.63670086,1.5705963)"><tspan
+         sodipodi:role="line"
+         id="tspan73"
+         x="58.644814"
+         y="113.1022"
+         style="stroke-width:0.4502061">Demo multiple layers</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="page1"
+     inkscape:label="page1 - rectangles"
+     style="display:none">
+    <rect
+       style="fill:#ff0000;fill-rule:evenodd;stroke-width:0.26458332"
+       id="rect64"
+       width="47.247025"
+       height="31.372023"
+       x="34.017857"
+       y="148.45535" />
+    <rect
+       style="fill:#ff0000;fill-rule:evenodd;stroke-width:0.26458332"
+       id="rect66"
+       width="49.514877"
+       height="30.238094"
+       x="108.47916"
+       y="149.58928" />
+    <rect
+       style="fill:#ff0000;fill-rule:evenodd;stroke-width:0.26458332"
+       id="rect68"
+       width="58.964287"
+       height="30.616072"
+       x="69.16964"
+       y="210.06548" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="page2"
+     inkscape:label="page2 - circles"
+     style="display:inline">
+    <ellipse
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke-width:0.26458332;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path27"
+       cx="59.066566"
+       cy="218.42276"
+       rx="32.874149"
+       ry="20.847023" />
+    <ellipse
+       style="opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:0.26458332;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path29"
+       cx="159.29263"
+       cy="218.69002"
+       rx="27.79603"
+       ry="22.717911" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Layer 4 - always visible"
+     style="display:inline">
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.2829186"
+       id="show.page1"
+       width="56.318451"
+       height="37.41964"
+       x="24.633303"
+       y="26.082783"
+       inkscape:label="#show.page1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.8777771px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="26.458334"
+       y="10.133713"
+       id="text11"><tspan
+         sodipodi:role="line"
+         id="tspan9"
+         x="26.458334"
+         y="10.133713"
+         style="stroke-width:0.26458332">Show</tspan><tspan
+         sodipodi:role="line"
+         x="26.458334"
+         y="22.480934"
+         style="stroke-width:0.26458332"
+         id="tspan13">Rectangles</tspan></text>
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.26458332"
+       id="show.page2"
+       width="60.476189"
+       height="37.041668"
+       x="116.0387"
+       y="27.06015" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.8777771px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="129.73755"
+       y="12.180158"
+       id="text37"><tspan
+         sodipodi:role="line"
+         id="tspan35"
+         x="129.73755"
+         y="12.180158"
+         style="stroke-width:0.26458332">Show</tspan><tspan
+         sodipodi:role="line"
+         x="129.73755"
+         y="24.52738"
+         style="stroke-width:0.26458332"
+         id="tspan39">Circles</tspan></text>
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.26458332"
+       id="show.toggle"
+       width="58.208332"
+       height="37.797619"
+       x="23.186249"
+       y="97.838028" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.8777771px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="36.598839"
+       y="80.506744"
+       id="text45"><tspan
+         sodipodi:role="line"
+         id="tspan43"
+         x="36.598839"
+         y="80.506744"
+         style="stroke-width:0.26458332">Toggle</tspan><tspan
+         sodipodi:role="line"
+         x="36.598839"
+         y="92.853966"
+         style="stroke-width:0.26458332"
+         id="tspan47">Pages</tspan></text>
+  </g>
+</svg>

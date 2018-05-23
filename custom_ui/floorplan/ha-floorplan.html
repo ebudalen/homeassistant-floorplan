@@ -1,5 +1,5 @@
   Floorplan for Home Assistant
-  Version: 1.0.6
+  Version: 1.0.8
   https://github.com/pkozul/ha-floorplan
 -->
 
@@ -8,6 +8,8 @@
 <script src="lib/svg-pan-zoom.min.js"></script>
 <script src="lib/custom_js.js"></script>
 <script src="lib/hammer.min.js"></script>
+<script src="lib/jquery.longclick-1.0.js"></script>
+
 
 <!-- As documented here for chrome, removes the need for touchstart -->
 <meta name="viewport" content="width=device-width">
@@ -60,7 +62,7 @@
       <ul></ul>
     </div>
 
-    <div id="floorplan" on-tap="stopPropagation"></div>
+    <div id="floorplan" on-tap="stopPropagation" on-click="stopPropagation"></div>
 
   </template>
 
@@ -112,6 +114,10 @@
         type: Array,
         value: () => { return []; },
       },
+      longConfigs: {
+        type: Array,
+        value: () => { return []; },
+      },
       cssRules: {
         type: Array,
         value: () => { return []; },
@@ -141,11 +147,10 @@
         this.warn(`A group cannot contain both 'entities' and 'elements' in floorplan configuration`);
         return;
       }
-
-      invalidGroups = this.config.groups.filter(x => !x.entities && !x.elements);
+      invalidGroups = this.config.groups.filter(x => !x.entities && !x.elements && !x.longs);
       if (invalidGroups.length) {
         this.isLoading = false;
-        this.warn(`A group must contain either 'entities' or 'elements' in floorplan configuration`);
+        this.warn(`A group must contain either 'entities', 'elements', or 'longs' in floorplan configuration`);
         return;
       }
 
@@ -197,10 +202,12 @@
 
       this.loadStyleSheet(this.config.stylesheet + '?cacheBuster=' + (new Date().getTime()), function (success, link) {
         if (success) {
-          Polymer.dom(this.instance.root).appendChild(link);
+          this.instance.root.appendChild(link);
           let styleSheet = link['sheet'];
-          this.instance.cssRules = this.instance.getArray(styleSheet.cssRules);
-          callback();
+          setTimeout(() => {
+            this.instance.cssRules = this.instance.getArray(styleSheet.cssRules);
+            callback();
+          }, 1000);
         }
         else {
           this.instance.error("Error loading stylesheet");
@@ -219,11 +226,40 @@
           $(svg).css('position', this.instance.isPanel ? 'absolute' : 'relative');
           $(svg).css('cursor', 'default');
 
-          Polymer.dom(this.instance.$.floorplan).node.appendChild(svg);
+          this.instance.$.floorplan.appendChild(svg);
 
           let uniqueId = (new Date()).getTime();
 
           let svgElements = $(svg).find('*').toArray();
+          
+
+          let longGroups = this.instance.config.groups.filter(x => x.longs);
+          for (let longGroup of longGroups) {
+            for (let longId of longGroup.longs) {
+              let svgElement = $(svg).find(`[id="${longId}"]`);
+
+              if (svgElement.length) {
+                $(svgElement).mayTriggerLongClicks().on('longClick', this.instance.onLongClick.bind({ instance: this.instance, longId: longId }));
+                $(svgElement).css('cursor', 'pointer');
+
+                let longConfig = {
+                  group: longGroup,
+                };
+
+                this.instance.longConfigs[longId] = longConfig;
+
+                if (longGroup.action.data.elements) {
+                  for (let otherElementId of longGroup.action.data.elements) {
+                    let otherSvgElement = $(svg).find(`[id="${otherElementId}"]`);
+                    $(otherSvgElement).addClass(longGroup.action.data.default_class);
+                  }
+                }
+              }
+              else {
+                this.instance.warn(`Cannot find '${longId}' in SVG file`);
+              }
+            }
+          }
 
           let elementGroups = this.instance.config.groups.filter(x => x.elements);
           for (let elementGroup of elementGroups) {
@@ -231,7 +267,8 @@
               let svgElement = $(svg).find(`[id="${elementId}"]`);
 
               if (svgElement.length) {
-                $(svgElement).on('click', this.instance.onElementClick.bind({ instance: this.instance, elementId: elementId }));
+                // $(svgElement).on('click', this.instance.onElementClick.bind({ instance: this.instance, elementId: elementId }));
+                $(svgElement).mayTriggerLongClicks().on('longClick', this.instance.onElementClick.bind({ instance: this.instance, elementId: elementId }));
                 $(svgElement).css('cursor', 'pointer');
 
                 let elementConfig = {
@@ -420,7 +457,7 @@
     },
 
     handleEntities(entities) {
-      let svg = Polymer.dom(this.$.floorplan).querySelector('svg');
+      let svg = this.$.floorplan.querySelector('svg');
 
       for (let entityId in entities) {
         let entityState = entities[entityId];
@@ -599,7 +636,7 @@
     },
 
     loadImage(imageUrl, entityId, entityState, callback) {
-      let svg = Polymer.dom(this.$.floorplan).querySelector('svg');
+      let svg = this.$.floorplan.querySelector('svg');
       jQuery.ajax({
         url: imageUrl, // allow the browser cache to be used
         success: function (result) {
@@ -678,7 +715,7 @@
       if (!this.cssRules || !this.cssRules.length)
         return;
 
-      let svg = Polymer.dom(this.$.floorplan).querySelector('svg');
+      let svg = this.$.floorplan.querySelector('svg');
 
       for (let entityId in this.entityConfigs) {
         let entityConfig = this.entityConfigs[entityId];
@@ -763,6 +800,56 @@
       }
     },
 
+    onLongClick(e) {
+      let svgElement = e.target;
+
+      let longConfig = this.instance.longConfigs[this.longId];
+      if (longConfig.group.action) {
+        let action = longConfig.group.action;
+        if (action.service) {
+          switch (action.domain) {
+            case 'class':
+
+              switch (action.service) {
+                case 'toggle':
+                  let svg = this.instance.$.floorplan.querySelector('svg');
+                  let classes = action.data.classes;
+
+                  for (let otherElementId of action.data.elements) {
+                    let otherSvgElement = $(svg).find(`[id="${otherElementId}"]`);
+
+                    if ($(otherSvgElement).hasClass(classes[0])) {
+                      $(otherSvgElement).removeClass(classes[0]);
+                      $(otherSvgElement).addClass(classes[1]);
+                    }
+                    else if ($(otherSvgElement).hasClass(classes[1])) {
+                      $(otherSvgElement).removeClass(classes[1]);
+                      $(otherSvgElement).addClass(classes[0]);
+                    }
+                    else {
+                      $(otherSvgElement).addClass(action.data.default_class);
+                    }
+                  }
+                  break;
+              }
+              break;
+
+            default:
+              domain = action.domain
+              let data = action.data ? action.data : {};
+              if (action.data_template) {
+                let entities = this.instance.hass.states;
+                let entityState = entities[entityId];
+                let result = this.instance.assemble(action.data_template, entityState, entities);
+                data = JSON.parse(result);
+              }
+              this.instance.hass.callService(domain, action.service, data);
+              break;
+          }
+        }
+      }
+    },
+    
     onElementClick(e) {
       let svgElement = e.target;
 
@@ -775,7 +862,7 @@
 
               switch (action.service) {
                 case 'toggle':
-                  let svg = Polymer.dom(this.instance.$.floorplan).querySelector('svg');
+                  let svg = this.instance.$.floorplan.querySelector('svg');
                   let classes = action.data.classes;
 
                   for (let otherElementId of action.data.elements) {
@@ -820,7 +907,7 @@
       if (entityConfig.group.action) {
         let action = entityConfig.group.action;
         if (action.service) {
-          let domain = action.domain ? action.domain : window.HAWS.extractDomain(entityId);
+          let domain = action.domain ? action.domain : entityId.substr(0, entityId.indexOf('.'));
           domain = (domain == 'group') ? 'homeassistant' : domain;
 
           let data = {};
@@ -923,21 +1010,21 @@
     },
 
     error(message) {
-      let errors = Polymer.dom(this.$.errors).node;
+      let errors = this.$.errors;
       $(errors).find('ul').append(`<li>${message}</li>`)
       $(errors).css('display', 'block');
     },
 
     warn(message) {
       if ((this.config.warnings === null) || (this.config.warnings !== undefined)) {
-        let warnings = Polymer.dom(this.$.warnings).node;
+        let warnings = this.$.warnings;
         $(warnings).find('ul').append(`<li>${message}</li>`)
         $(warnings).css('display', 'block');
       }
     },
 
     debug(message) {
-      let debug = Polymer.dom(this.$.debug).node;
+      let debug = this.$.debug;
       $(debug).find('ul').append(`<li>${message}</li>`)
       $(debug).css('display', 'block');
     },
@@ -1009,6 +1096,19 @@
         Math.round(color1.b * w1 + color2.b * w2)
       ];
       return rgb;
+    },
+    fire(type, detail, options) {
+      options = options || {};
+      detail = (detail === null || detail === undefined) ? {} : detail;
+      const event = new Event(type, {
+        bubbles: options.bubbles === undefined ? true : options.bubbles,
+        cancelable: Boolean(options.cancelable),
+        composed: options.composed === undefined ? true : options.composed
+      });
+      event.detail = detail;
+      const node = options.node || this;
+      node.dispatchEvent(event);
+      return event;
     }
   });
 
